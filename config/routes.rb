@@ -7,12 +7,30 @@ authenticate :user, lambda { |u| u.admin? } do
   mount Sidekiq::Web => '/sidekiq'
 
   namespace :madmin do
+    namespace :active_storage do
+      resources :variant_records
+    end
+    namespace :active_storage do
+      resources :blobs
+    end
+    namespace :active_storage do
+      resources :attachments
+    end
+    resources :services
+    resources :announcements
+    resources :notifications
+    resources :users
+    root to: "dashboard#show"
   end
 end
 
   resources :notifications, only: [:index]
   resources :announcements, only: [:index]
   devise_for :users, controllers: { omniauth_callbacks: "users/omniauth_callbacks" }
-  root to: 'home#index'
+
+  resources :cards
+  resources :lists
+
+  root to: 'lists#index'
   # For details on the DSL available within this file, see https://guides.rubyonrails.org/routing.html
 end
