@@ -1,5 +1,5 @@
 class ListsController < ApplicationController
-  before_action :set_list, only: %i[ show edit update destroy ]
+  before_action :set_list, only: %i[ show edit update destroy move ]
 
   # GET /lists or /lists.json
   def index
@@ -54,6 +54,11 @@ class ListsController < ApplicationController
       format.html { redirect_to lists_url, notice: "List was successfully destroyed." }
       format.json { head :no_content }
     end
+  end
+
+  def move 
+    @list.insert_at(list_params[:position].to_i)
+    render action: :show
   end
 
   private
