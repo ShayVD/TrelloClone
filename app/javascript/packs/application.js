@@ -35,6 +35,10 @@ window.store = new Vuex.Store({
       const card_index = state.lists[list_index].cards.findIndex((item) => item.id === data.id)
       state.lists[list_index].cards.splice(card_index, 1, data)
     },
+    deleteList(state, data) {
+      const index = state.lists.findIndex((item) => item.id === data.id)
+      state.lists.splice(index, 1)
+    },
   }
 })
 

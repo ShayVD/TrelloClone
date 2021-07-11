@@ -1,6 +1,9 @@
 <template>
   <div class="list">
-    <h6>{{ list.name }}</h6>
+    <div class="d-flex justify-content-between">
+      <h6>{{ list.name }}</h6>
+      <button v-on:click="deleteList()" type="button" class="btn-close" aria-label="Close"></button>
+    </div>
 
     <draggable v-model="list.cards" :options="{group: 'cards'}" class="dragArea" @change="cardMoved">
       <card v-for="(card, index) in list.cards" :key="card.id" :card="card" :list="list"></card>
@@ -73,6 +76,18 @@ export default {
           this.message = ""
           this.$nextTick(() => {this.$refs.message.focus() })
         }
+      })
+    },
+
+    deleteList: function() {
+      var data = new FormData
+      data.append("list[list_id]", this.list.id)
+
+      Rails.ajax({
+        url: `/lists/${this.list.id}`,
+        type: "DELETE",
+        data: data,
+        dataType: "json",
       })
     },
     
